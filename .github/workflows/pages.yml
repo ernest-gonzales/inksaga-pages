@@ -27,9 +27,8 @@ jobs:
       - name: Verify deployment
         run: |
           test -f index.html
-          grep -q 'Book 1 rebuild 1/46' index.html
-          grep -q 'Logen Ninefingers' index.html
-          grep -q 'Chapter 1 · The End' index.html
+          grep -q 'Book 1 knowledge rebuild in progress' index.html
+          grep -q 'No rebuilt chapters are currently published' index.html
 
       - name: Prepare website-only artifact
         run: |
