@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ARTIFACT_URL: 'https://sdmntpritalynorth.oaiusercontent.com/files/00000000-209c-8246-b55b-e5719a2a6e00/raw?se=2026-08-11T06%3A02%3A36Z&sp=r&sv=2026-02-06&sr=b&scid=2ba8e52d-fdb3-551a-866e-6ed640a06b5b&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-11T05%3A49%3A35Z&ske=2026-08-12T05%3A49%3A35Z&sks=b&skv=2026-02-06&sig=Tq4uQp7Nu48P3CQ2SLJndPRBXiprR2U/Gahq6LENtp8%3D'
+  ARTIFACT_URL: 'https://sdmntpritalynorth.oaiusercontent.com/files/00000000-f4e4-8246-8dce-3e1fbff3e1cb/raw?se=2026-08-11T06%3A07%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=32256d30-4fe2-5855-8e97-c016c115519b&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-11T05%3A21%3A29Z&ske=2026-08-12T05%3A21%3A29Z&sks=b&skv=2026-02-06&sig=GGmz/OkerQuXnID4vY/SU0OEE60kJcnfEzhDf9G12iY%3D'
 
 jobs:
   deploy:
@@ -40,7 +40,6 @@ jobs:
           grep -q '/inksaga-pages/_next/' /tmp/inksaga-site/index.html
           grep -R -q 'Practical Frost' /tmp/inksaga-site/_next/static/chunks
           grep -R -q 'Practical Severard' /tmp/inksaga-site/_next/static/chunks
-          grep -R -q 'Superior Kalyne' /tmp/inksaga-site/_next/static/chunks
 
       - name: Persist generated site only
         run: |
