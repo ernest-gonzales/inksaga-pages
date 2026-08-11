@@ -1,5 +1,7 @@
 # InkSaga Pages
 
-Public GitHub Pages host for the generated InkSaga website.
+Public GitHub Pages deployment repository for InkSaga.
 
-The private application/source repository is not published here. The Book 1 knowledge dataset is currently reset; no rebuilt chapter analysis is published until Chapter 1 is re-approved from a clean source-only session.
+The generated website is published from the exact `rebuilt-static-site` artifact that passed CI in the private `inksaga-web` repository. `artifact-source.json` records the source commit, workflow run, artifact ID, and SHA-256 used by the Pages deployment workflow.
+
+No EPUB source text or private chapter evidence is published here.

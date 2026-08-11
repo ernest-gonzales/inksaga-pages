@@ -3,6 +3,9 @@ name: Deploy InkSaga Pages
 on:
   push:
     branches: [main]
+    paths:
+      - artifact-source.json
+      - .github/workflows/pages.yml
   workflow_dispatch:
 
 permissions:
@@ -21,28 +24,46 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout generated website
+      - name: Checkout deployment manifest
         uses: actions/checkout@v4
 
-      - name: Verify deployment
+      - name: Download exact verified private-CI artifact
+        shell: bash
         run: |
-          test -f index.html
-          grep -q 'InkSaga' index.html
-          if find . -type f -iname '*.epub' -print -quit | grep -q .; then
+          set -euo pipefail
+          URL="$(python3 -c 'import json; print(json.load(open("artifact-source.json"))["downloadUrl"])')"
+          EXPECTED="$(python3 -c 'import json; print(json.load(open("artifact-source.json"))["sha256"])')"
+          curl --fail --location --retry 3 --output /tmp/inksaga-site.zip "$URL"
+          printf '%s  %s\n' "$EXPECTED" /tmp/inksaga-site.zip | sha256sum --check --strict
+
+      - name: Verify and unpack website-only artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/inksaga-site
+          mkdir -p /tmp/inksaga-site
+          unzip -q /tmp/inksaga-site.zip -d /tmp/inksaga-site
+          test -f /tmp/inksaga-site/index.html
+          grep -Raq 'InkSaga' /tmp/inksaga-site
+          grep -Raq 'The Demon Star' /tmp/inksaga-site
+          grep -Raq 'EXCISION' /tmp/inksaga-site
+          if grep -Raq 'HARVEST' /tmp/inksaga-site; then
+            echo 'Chapter 2 title leaked into public artifact' >&2
+            exit 1
+          fi
+          if find /tmp/inksaga-site -type f -iname '*.epub' -print -quit | grep -q .; then
             echo 'EPUB source file must not be published' >&2
             exit 1
           fi
-
-      - name: Prepare website-only artifact
-        run: |
-          rm -rf /tmp/inksaga-site
-          mkdir -p /tmp/inksaga-site
-          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name README.md -exec cp -a {} /tmp/inksaga-site/ \;
+          if grep -RaqE 'sourceHref|evidenceIds|OEBPS/c5Y\.xhtml' /tmp/inksaga-site; then
+            echo 'Private source/provenance data leaked into public artifact' >&2
+            exit 1
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload generated site
+      - name: Upload verified generated site
         uses: actions/upload-pages-artifact@v4
         with:
           path: /tmp/inksaga-site
