@@ -1,4 +1,4 @@
-name: Publish verified InkSaga site
+name: Deploy InkSaga Pages
 
 on:
   push:
@@ -6,16 +6,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
-
-env:
-  ARTIFACT_URL: 'https://sdmntpritalynorth.oaiusercontent.com/files/00000000-f4e4-8246-8dce-3e1fbff3e1cb/raw?se=2026-08-11T06%3A07%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=32256d30-4fe2-5855-8e97-c016c115519b&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-11T05%3A21%3A29Z&ske=2026-08-12T05%3A21%3A29Z&sks=b&skv=2026-02-06&sig=GGmz/OkerQuXnID4vY/SU0OEE60kJcnfEzhDf9G12iY%3D'
 
 jobs:
   deploy:
@@ -24,34 +21,21 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout public deployment repository
+      - name: Checkout generated website
         uses: actions/checkout@v4
 
-      - name: Download verified private build artifact
+      - name: Verify generated deployment
         run: |
-          curl -fsSL "$ARTIFACT_URL" -o /tmp/inksaga-site.zip
+          test -f index.html
+          grep -q '/inksaga-pages/_next/' index.html
+          grep -R -q 'Practical Frost' _next/static/chunks
+          grep -R -q 'Practical Severard' _next/static/chunks
+
+      - name: Prepare website-only artifact
+        run: |
           rm -rf /tmp/inksaga-site
           mkdir -p /tmp/inksaga-site
-          unzip -q /tmp/inksaga-site.zip -d /tmp/inksaga-site
-
-      - name: Verify deployment artifact
-        run: |
-          test -f /tmp/inksaga-site/index.html
-          grep -q '/inksaga-pages/_next/' /tmp/inksaga-site/index.html
-          grep -R -q 'Practical Frost' /tmp/inksaga-site/_next/static/chunks
-          grep -R -q 'Practical Severard' /tmp/inksaga-site/_next/static/chunks
-
-      - name: Persist generated site only
-        run: |
-          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name README.md -exec rm -rf {} +
-          cp -a /tmp/inksaga-site/. .
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
-          if ! git diff --cached --quiet; then
-            git commit -m 'Publish source-verified The Blade Itself rebuild'
-            git push origin HEAD:main
-          fi
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name README.md -exec cp -a {} /tmp/inksaga-site/ \;
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
