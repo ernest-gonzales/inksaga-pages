@@ -28,7 +28,10 @@ jobs:
         run: |
           test -f index.html
           grep -q 'InkSaga' index.html
-          test ! -e '*.epub'
+          if find . -type f -iname '*.epub' -print -quit | grep -q .; then
+            echo 'EPUB source file must not be published' >&2
+            exit 1
+          fi
 
       - name: Prepare website-only artifact
         run: |
