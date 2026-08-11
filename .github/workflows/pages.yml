@@ -3,9 +3,6 @@ name: Deploy InkSaga Pages
 on:
   push:
     branches: [main]
-    paths:
-      - artifact-source.json
-      - .github/workflows/pages.yml
   workflow_dispatch:
 
 permissions:
@@ -15,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -24,31 +21,27 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout deployment manifest
+      - name: Checkout verified generated site
         uses: actions/checkout@v4
 
-      - name: Download exact verified private-CI artifact
+      - name: Verify exact artifact files
         shell: bash
         run: |
           set -euo pipefail
-          URL="$(python3 -c 'import json; print(json.load(open("artifact-source.json"))["downloadUrl"])')"
-          EXPECTED="$(python3 -c 'import json; print(json.load(open("artifact-source.json"))["sha256"])')"
-          curl --fail --location --retry 3 --output /tmp/inksaga-site.zip "$URL"
-          printf '%s  %s\n' "$EXPECTED" /tmp/inksaga-site.zip | sha256sum --check --strict
-
-      - name: Verify and unpack website-only artifact
-        shell: bash
-        run: |
-          set -euo pipefail
+          sha256sum --check --strict artifact-files.sha256
           rm -rf /tmp/inksaga-site
           mkdir -p /tmp/inksaga-site
-          unzip -q /tmp/inksaga-site.zip -d /tmp/inksaga-site
+          while IFS= read -r line; do
+            path="${line#*  }"
+            mkdir -p "/tmp/inksaga-site/$(dirname "$path")"
+            cp -- "$path" "/tmp/inksaga-site/$path"
+          done < artifact-files.sha256
           test -f /tmp/inksaga-site/index.html
           grep -Raq 'InkSaga' /tmp/inksaga-site
           grep -Raq 'The Demon Star' /tmp/inksaga-site
           grep -Raq 'EXCISION' /tmp/inksaga-site
           if grep -Raq 'HARVEST' /tmp/inksaga-site; then
-            echo 'Chapter 2 title leaked into public artifact' >&2
+            echo 'Future chapter title leaked into public artifact' >&2
             exit 1
           fi
           if find /tmp/inksaga-site -type f -iname '*.epub' -print -quit | grep -q .; then

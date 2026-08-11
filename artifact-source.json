@@ -5,5 +5,6 @@
   "artifactId": 9113552327,
   "artifactName": "rebuilt-static-site",
   "sha256": "77beccd4fc0cbf610c4b4b2c307d6a56c012c1ec42de9768aaef1b1b4c4fbcee",
-  "downloadUrl": "https://sdmntprnortheu.oaiusercontent.com/files/00000000-274c-81f4-812c-968a44fb61c7/raw?se=2026-08-11T18%3A31%3A13Z&sp=r&sv=2026-02-06&sr=b&scid=221eabb0-176c-5927-9513-635c06037e18&skoid=061609b8-1cdb-4a5b-9e68-c7ab9a523a8f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-11T06%3A17%3A03Z&ske=2026-08-12T06%3A17%3A03Z&sks=b&skv=2026-02-06&sig=fddCCcgRaqiFXtiUd0XP2VaJPM4de3%2BGIj7nuhtiWQU%3D"
+  "publicationMode": "checked-in verified artifact files",
+  "fileManifest": "artifact-files.sha256"
 }
