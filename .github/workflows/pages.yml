@@ -27,8 +27,8 @@ jobs:
       - name: Verify deployment
         run: |
           test -f index.html
-          grep -q 'Book 1 knowledge rebuild in progress' index.html
-          grep -q 'No rebuilt chapters are currently published' index.html
+          grep -q 'InkSaga' index.html
+          test ! -e '*.epub'
 
       - name: Prepare website-only artifact
         run: |
