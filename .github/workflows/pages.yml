@@ -24,12 +24,10 @@ jobs:
       - name: Checkout generated website
         uses: actions/checkout@v4
 
-      - name: Verify generated deployment
+      - name: Verify deployment
         run: |
           test -f index.html
-          grep -q '/inksaga-pages/_next/' index.html
-          grep -R -q 'Practical Frost' _next/static/chunks
-          grep -R -q 'Practical Severard' _next/static/chunks
+          grep -q 'Book 1 knowledge rebuild in progress' index.html
 
       - name: Prepare website-only artifact
         run: |
