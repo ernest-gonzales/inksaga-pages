@@ -1,4 +1,4 @@
-name: Deploy InkSaga Pages
+name: Publish verified InkSaga Chapter 1
 
 on:
   push:
@@ -6,13 +6,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
+
+env:
+  ARTIFACT_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-6938-81f4-b0c7-3eb8131fde85/raw?se=2026-08-11T18%3A01%3A59Z&sp=r&sv=2026-02-06&sr=b&scid=6a6296c0-74d7-5930-88c5-99563de51cbe&skoid=061609b8-1cdb-4a5b-9e68-c7ab9a523a8f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-11T06%3A17%3A10Z&ske=2026-08-12T06%3A17%3A10Z&sks=b&skv=2026-02-06&sig=L5ZgZLHpMKMfH8udcWB2723pwYLzJHKn8xSvsumlFSY%3D'
 
 jobs:
   deploy:
@@ -21,23 +24,43 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout generated website
+      - name: Checkout public deployment repository
         uses: actions/checkout@v4
 
-      - name: Verify deployment
+      - name: Download verified private build artifact
         run: |
-          test -f index.html
-          grep -q 'InkSaga' index.html
-          if find . -type f -iname '*.epub' -print -quit | grep -q .; then
-            echo 'EPUB source file must not be published' >&2
+          curl -fsSL "$ARTIFACT_URL" -o /tmp/inksaga-site.zip
+          rm -rf /tmp/inksaga-site
+          mkdir -p /tmp/inksaga-site
+          unzip -q /tmp/inksaga-site.zip -d /tmp/inksaga-site
+
+      - name: Verify Chapter 1 artifact
+        run: |
+          test -f /tmp/inksaga-site/index.html
+          grep -q 'InkSaga Codex' /tmp/inksaga-site/index.html
+          grep -q 'The Blade Itself' /tmp/inksaga-site/index.html
+          grep -q 'The End' /tmp/inksaga-site/index.html
+          grep -q 'Verified through chapter 1' /tmp/inksaga-site/index.html
+          if grep -R -q 'The Survivors' /tmp/inksaga-site; then
+            echo 'Future Chapter 2 metadata must not be published' >&2
+            exit 1
+          fi
+          if find /tmp/inksaga-site -type f \( -iname '*.epub' -o -iname '*.mobi' -o -iname '*.azw' -o -iname '*.azw3' \) -print -quit | grep -q .; then
+            echo 'Source ebook files must not be published' >&2
             exit 1
           fi
 
-      - name: Prepare website-only artifact
+      - name: Persist generated site only
         run: |
-          rm -rf /tmp/inksaga-site
-          mkdir -p /tmp/inksaga-site
-          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name README.md -exec cp -a {} /tmp/inksaga-site/ \;
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name README.md -exec rm -rf {} +
+          cp -a /tmp/inksaga-site/. .
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish verified Book 1 Chapter 1'
+            git push origin HEAD:main
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
