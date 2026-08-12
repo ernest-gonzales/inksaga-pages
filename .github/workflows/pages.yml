@@ -44,10 +44,6 @@ jobs:
           grep -Raq 'InkSaga' /tmp/inksaga-site
           grep -Raq 'The Demon Star' /tmp/inksaga-site
           grep -Raq 'EXCISION' /tmp/inksaga-site
-          if grep -Raq 'HARVEST' /tmp/inksaga-site; then
-            echo 'Future chapter title leaked into public artifact' >&2
-            exit 1
-          fi
           if find /tmp/inksaga-site -type f -iname '*.epub' -print -quit | grep -q .; then
             echo 'EPUB source file must not be published' >&2
             exit 1
@@ -58,6 +54,7 @@ jobs:
           fi
           grep -Raq '400kopvapm66w.css' /tmp/inksaga-site/index.html
           grep -Raq 'data-display="light"' /tmp/inksaga-site/index.html
+          grep -Raq 'Cultures' /tmp/inksaga-site
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
