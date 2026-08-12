@@ -1,10 +1,10 @@
 {
   "sourceRepository": "ernest-gonzales/inksaga-web",
-  "sourceCommit": "9900ea8397f4e8dd85e14dfd8483d7f5d0dab16f",
-  "workflowRunId": 31522373348,
-  "artifactId": 9113552327,
+  "sourceCommit": "77aa1da8ba3ded7ac2da499aaf77d78ab2eb6d71",
+  "workflowRunId": 31550305097,
+  "artifactId": 9123998266,
   "artifactName": "rebuilt-static-site",
-  "sha256": "77beccd4fc0cbf610c4b4b2c307d6a56c012c1ec42de9768aaef1b1b4c4fbcee",
-  "publicationMode": "checked-in verified artifact files",
-  "fileManifest": "artifact-files.sha256"
+  "sha256": "21c3824f17b09fa6ac25acb77b6d0ba83a568dcd5abbabd6b160be05642e5fcd",
+  "downloadUrl": "https://sdmntpritalynorth.oaiusercontent.com/files/00000000-cdac-8246-817f-d11a250dad54/raw?se=2026-08-12T01%3A36%3A56Z&sp=r&sv=2026-02-06&sr=b&scid=50785d8a-7ec6-52f9-b762-e21ce21d2406&skoid=5bfb38a5-43fb-4c63-80a1-6ae1e97e2e16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-12T00%3A44%3A08Z&ske=2026-08-13T00%3A44%3A08Z&sks=b&skv=2026-02-06&sig=JH//vMs4Epj3HOArhxe6Hrz7LpWpRFJjUsS%2BJe2d0hA%3D",
+  "publicationMode": "verified private-CI artifact download"
 }
