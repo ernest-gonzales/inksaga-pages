@@ -1,10 +1,10 @@
 {
   "sourceRepository": "ernest-gonzales/inksaga-web",
-  "sourceCommit": "86248fb2e39d3a50a9d7e15180b27572b1bf677b",
-  "workflowRunId": 31554456895,
-  "artifactId": 9125476567,
+  "sourceCommit": "82a80858bed1e42b5a4c6f2e2357be9e7fc7af35",
+  "workflowRunId": 31556386147,
+  "artifactId": 9126143578,
   "artifactName": "rebuilt-static-site",
-  "sha256": "d8de6dc2f1b484276eac0d54706cce864075a1f0f4b254804d049f5a738b5e4d",
-  "downloadUrl": "https://sdmntpritalynorth.oaiusercontent.com/files/00000000-3b4c-8246-9d9d-38590f16477b/raw?se=2026-08-12T01%3A48%3A00Z&sp=r&sv=2026-02-06&sr=b&scid=60ed938d-cd63-50fa-8d6a-86ba66a20117&skoid=5bfb38a5-43fb-4c63-80a1-6ae1e97e2e16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-11T06%3A12%3A49Z&ske=2026-08-12T06%3A12%3A49Z&sks=b&skv=2026-02-06&sig=xFZXa9tHKBiSg%2BLlU4wQYXUcgkGoj1Ngt1as8wJbdyo%3D",
+  "sha256": "011b86325b0f6db261e0b5d346a56281fa61e916771568c528ebe89ac9b40885",
+  "downloadUrl": "https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-730c-822f-8849-27a9fde6efdb/raw?se=2026-08-12T08%3A13%3A06Z&sp=r&sv=2026-02-06&sr=b&scid=2bd96096-5ac8-5854-bb56-992819555ad4&skoid=061609b8-1cdb-4a5b-9e68-c7ab9a523a8f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-12T05%3A49%3A52Z&ske=2026-08-13T05%3A49%3A52Z&sks=b&skv=2026-02-06&sig=sP4g0LTCoCvqkMDmFEHvE49qKwotokDTIvkbR1e39Nw%3D",
   "publicationMode": "verified private-CI artifact download"
 }
