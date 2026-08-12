@@ -1,10 +1,10 @@
 {
   "sourceRepository": "ernest-gonzales/inksaga-web",
-  "sourceCommit": "899c49dbe3cc2c6378c9f2dec140a2b157c4c5ee",
-  "workflowRunId": 31608826683,
-  "artifactId": 9146294731,
+  "sourceCommit": "7a5b5d8817c3669e56ad70c1c650ce0ac9e5a1ee",
+  "workflowRunId": 31629272276,
+  "artifactId": 9154407176,
   "artifactName": "rebuilt-static-site",
-  "sha256": "8ecd21eb089e5d32d6ccef9a776c7cf0d5a6e85a599adfc01789585a98805d86",
-  "downloadUrl": "https://sdmntprnortheu.oaiusercontent.com/files/00000000-f7f8-81f4-b045-b43098887e18/raw?se=2026-08-12T15%3A17%3A35Z&sp=r&sv=2026-02-06&sr=b&scid=6105b252-9343-527b-bcba-586a24e809b7&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-12T05%3A19%3A06Z&ske=2026-08-13T05%3A19%3A06Z&sks=b&skv=2026-02-06&sig=NjxQHC3ElnsM47tNKugqA7VNdEzUc10tsaVFSriWyfE%3D",
+  "sha256": "fc7a2b324ca7ec9cb62caca7f54777584a3bab5cb5deeb6a769efdc9f7c5f657",
+  "downloadUrl": "https://sdmntprnortheu.oaiusercontent.com/files/00000000-76a4-81f4-b72f-2b3714cc6a49/raw?se=2026-08-12T18%3A56%3A47Z&sp=r&sv=2026-02-06&sr=b&scid=44527bca-80fd-5001-afbf-51d9c3fb1345&skoid=82a3371f-2f6c-4f81-8a78-2701b362559b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-12T17%3A41%3A33Z&ske=2026-08-13T17%3A41%3A33Z&sks=b&skv=2026-02-06&sig=MFgd02utqi%2BhfcyLGwhcq/fitpPZUUKloaXFaNt/hKQ%3D",
   "publicationMode": "verified private-CI artifact download"
 }
