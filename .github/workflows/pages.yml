@@ -21,21 +21,25 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout verified generated site
+      - name: Checkout deployment manifest
         uses: actions/checkout@v4
 
-      - name: Verify exact artifact files
+      - name: Download exact verified private-CI artifact
         shell: bash
         run: |
           set -euo pipefail
-          sha256sum --check --strict artifact-files.sha256
+          URL="$(python3 -c 'import json; print(json.load(open("artifact-source.json"))["downloadUrl"])')"
+          EXPECTED="$(python3 -c 'import json; print(json.load(open("artifact-source.json"))["sha256"])')"
+          curl --fail --location --retry 3 --output /tmp/inksaga-site.zip "$URL"
+          printf '%s  %s\n' "$EXPECTED" /tmp/inksaga-site.zip | sha256sum --check --strict
+
+      - name: Verify and unpack website-only artifact
+        shell: bash
+        run: |
+          set -euo pipefail
           rm -rf /tmp/inksaga-site
           mkdir -p /tmp/inksaga-site
-          while IFS= read -r line; do
-            path="${line#*  }"
-            mkdir -p "/tmp/inksaga-site/$(dirname "$path")"
-            cp -- "$path" "/tmp/inksaga-site/$path"
-          done < artifact-files.sha256
+          unzip -q /tmp/inksaga-site.zip -d /tmp/inksaga-site
           test -f /tmp/inksaga-site/index.html
           grep -Raq 'InkSaga' /tmp/inksaga-site
           grep -Raq 'The Demon Star' /tmp/inksaga-site
@@ -52,6 +56,8 @@ jobs:
             echo 'Private source/provenance data leaked into public artifact' >&2
             exit 1
           fi
+          grep -Raq '400kopvapm66w.css' /tmp/inksaga-site/index.html
+          grep -Raq 'data-display="light"' /tmp/inksaga-site/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
