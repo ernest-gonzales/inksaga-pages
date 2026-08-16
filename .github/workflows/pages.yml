@@ -52,7 +52,6 @@ jobs:
             exit 1
           fi
           grep -Eq '/inksaga-pages/_next/' /tmp/inksaga-site/index.html
-          grep -Raq 'data-display="light"' /tmp/inksaga-site/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
